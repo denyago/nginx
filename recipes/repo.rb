@@ -32,11 +32,23 @@ when "rhel","fedora"
 when "debian"
   include_recipe "apt"
 
-  apt_repository "nginx" do
-    uri node['nginx']['upstream_repository']
-    distribution node['lsb']['codename']
-    components ["nginx"]
-    deb_src true
-    key 'http://nginx.org/keys/nginx_signing.key'
+  case node['platform']
+  when 'ubuntu'
+    apt_repository "nginx" do
+      uri node['nginx']['upstream_repository']
+      distribution node['lsb']['codename']
+      components ["main"]
+      keyserver "keyserver.ubuntu.com"
+      key "C300EE8C"
+      action :add
+    end
+  when 'debian'
+    apt_repository "nginx" do
+      uri node['nginx']['upstream_repository']
+      distribution node['lsb']['codename']
+      components ["nginx"]
+      deb_src true
+      key 'http://nginx.org/keys/nginx_signing.key'
+    end
   end
 end

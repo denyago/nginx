@@ -26,5 +26,10 @@ when 'rhel','fedora'
     default['nginx']['upstream_repository'] = "http://nginx.org/packages/rhel/#{node['platform_version'].to_i}/$basearch/"
   end
 when 'debian'
-  default['nginx']['upstream_repository'] = "http://nginx.org/packages/#{node['platform']}"
+  case node['platform']
+  when 'debian'
+    default['nginx']['upstream_repository'] = "http://nginx.org/packages/#{node['platform']}"
+  when 'ubuntu'
+    default['nginx']['upstream_repository'] = "http://ppa.launchpad.net/nginx/stable/ubuntu"
+  end
 end

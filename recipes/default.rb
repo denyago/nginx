@@ -37,6 +37,8 @@ when 'package'
     else
       raise ArgumentError, "Unknown value '#{node['nginx']['repo_source']}' was passed to the nginx cookbook."
     end
+  when 'debian','ubuntu'
+    include_recipe 'nginx::repo'
   end
   package node['nginx']['package_name']
   service 'nginx' do
